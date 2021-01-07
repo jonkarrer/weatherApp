@@ -16,7 +16,6 @@ searchBar.addEventListener("keyup", function(event) {
 });
 function updateCityLocation() {
     const apiCity = searchBar.value;
-    console.log(apiCity);
     const apiKey = '&APPID=f0fda7206d1601a5d39960d1c3c15600';
     let newpoint = `${endpoint}${apiCity}${apiKey}`;
     fetch(newpoint)
@@ -33,6 +32,9 @@ function updateCityLocation() {
 
             let currentHours = localTimeZone.getHours();
             let currentMin = localTimeZone.getMinutes();
+            if(currentMin < 10){
+                currentMin = '0' + currentMin;
+            };
             let localZone = localTimeZone.getTimezoneOffset()/-60;
             let targetZone = data.timezone/3600;
             let timeDiff = targetZone - localZone;
@@ -42,17 +44,20 @@ function updateCityLocation() {
                 newTime -= 12;
                 displayedTime = newTime.toString() + ':' + currentMin.toString();
                 time.innerText = displayedTime + 'pm';
-                if(newTime > 5){
+                if(newTime > 6){
                     sun.style.display = 'none';
                     moon.style.display = 'block';
-                };
-            }else if (newTime > 24){
-                newTime -= 24;
-                if(newTime > 7 && newTime < 17){
+                }else{
                     sun.style.display = 'block';
                     moon.style.display = 'none';
                 };
-                if(newTime < 7){
+            }else if (newTime > 24){
+                newTime -= 24;
+                if(newTime > 6 && newTime < 17){
+                    sun.style.display = 'block';
+                    moon.style.display = 'none';
+                };
+                if(newTime < 6){
                     sun.style.display = 'none';
                     moon.style.display = 'block';
                 };
@@ -60,18 +65,34 @@ function updateCityLocation() {
                     newTime -= 12;
                     displayedTime = newTime.toString() + ':' + currentMin.toString();
                     time.innerText = displayedTime + 'pm';
-                    if(newTime > 5){
+                    if(newTime > 6){
+                        sun.style.display = 'block';
+                        moon.style.display = 'none';
+                    }else{
+                        sun.style.display = 'block';
+                        moon.style.display = 'none';
+                    };
+                }else{
+                    displayedTime = newTime.toString() + ':' + currentMin.toString();
+                    time.innerText = displayedTime + 'am';
+                    if(newTime < 7){
                         sun.style.display = 'none';
                         moon.style.display = 'block';
+                    }else{
+                        sun.style.display = 'block';
+                        moon.style.display = 'none'; 
                     };
-
-                }else{
-                displayedTime = newTime.toString() + ':' + currentMin.toString();
-                return time.innerText = displayedTime + 'am';
                 };
             }else{
                 displayedTime = newTime.toString() + ':' + currentMin.toString();
-                return time.innerText = displayedTime + 'am';
+                time.innerText = displayedTime + 'am';
+                if(newTime < 7){
+                    sun.style.display = 'none';
+                    moon.style.display = 'block';
+                }else{
+                    sun.style.display = 'block';
+                    moon.style.display = 'none'; 
+                };
             };   
         });
 };
