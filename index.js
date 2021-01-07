@@ -41,13 +41,30 @@ function updateCityLocation() {
             if(newTime > 12 && newTime < 24) {
                 newTime -= 12;
                 displayedTime = newTime.toString() + ':' + currentMin.toString();
-                return time.innerText = displayedTime + 'pm';
+                time.innerText = displayedTime + 'pm';
+                if(newTime > 5){
+                    sun.style.display = 'none';
+                    moon.style.display = 'block';
+                };
             }else if (newTime > 24){
                 newTime -= 24;
+                if(newTime > 7 && newTime < 17){
+                    sun.style.display = 'block';
+                    moon.style.display = 'none';
+                };
+                if(newTime < 7){
+                    sun.style.display = 'none';
+                    moon.style.display = 'block';
+                };
                 if(newTime > 12 && newTime < 24) {
                     newTime -= 12;
                     displayedTime = newTime.toString() + ':' + currentMin.toString();
-                    return time.innerText = displayedTime + 'pm';
+                    time.innerText = displayedTime + 'pm';
+                    if(newTime > 5){
+                        sun.style.display = 'none';
+                        moon.style.display = 'block';
+                    };
+
                 }else{
                 displayedTime = newTime.toString() + ':' + currentMin.toString();
                 return time.innerText = displayedTime + 'am';
@@ -55,10 +72,6 @@ function updateCityLocation() {
             }else{
                 displayedTime = newTime.toString() + ':' + currentMin.toString();
                 return time.innerText = displayedTime + 'am';
-            };
-            
-           
-            
+            };   
         });
 };
-console.log();
